@@ -1,41 +1,48 @@
-import { join } from 'path';
-import {
+// import { join } from 'path';
+// import {
+//     app,
+//     BrowserWindow,
+//     ipcMain,
+//     dialog
+// } from 'electron';
+var { join } = require('path');
+var {
     app,
     BrowserWindow,
     ipcMain,
     dialog
-} from 'electron';
-
+} = require('electron');
 // socket server
-let userClient:any = [];
-const io = require('socket.io')();
-//@ts-ignore
-io.on('connection', (socket) => {
-    console.log('socket connection:xxxxxxxxxxxx');
+// let userClient:any = [];
+// const io = require('socket.io')();
+// //@ts-ignore
+// io.on('connection', (socket) => {
+//     console.log('socket connection:xxxxxxxxxxxx');
 
-    socket.on('register', (data:any) => {
+//     socket.on('register', (data:any) => {
 
-      console.log(`REGISTER :${JSON.stringify(data)}`);
-      userClient.push({
-                  socket,
-                  userid: data.userid,
-                  shopid: data.shopid,
-                  // shopid: config.resid,
-                  roleid: data.roleid,
-                  view: data.view
-                });
-        userClient[0].socket.emit('notify_bar', 'successful')
-    });
+//       console.log(`REGISTER :${JSON.stringify(data)}`);
+//       userClient.push({
+//                   socket,
+//                   userid: data.userid,
+//                   shopid: data.shopid,
+//                   // shopid: config.resid,
+//                   roleid: data.roleid,
+//                   view: data.view
+//                 });
+//         userClient[0].socket.emit('notify_bar', 'successful')
+//     });
     
 
-//   io.emit('welcome');
+// //   io.emit('welcome');
 
-//   socket.on("test", () => {
-//     console.log("received test"); // not displayed
-//     io.emit("ok");
-//   })
-});
-io.listen(18092);
+// //   socket.on("test", () => {
+// //     console.log("received test"); // not displayed
+// //     io.emit("ok");
+// //   })
+// });
+// io.listen(18092);
+var io = require ("socket.io-client");
 
 //////////////////////////////////////
 
@@ -264,10 +271,169 @@ io.listen(18092);
 //     })
   
 //   });
-  
 
-const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
-console.log('dev', isDev)
+
+////// info hardware ////////////
+const si = require('systeminformation');
+
+// // promises style - new since version 3
+// si.cpu()
+// //@ts-ignore
+//   .then(data => console.log(data))
+//   //@ts-ignore
+//   .catch(error => console.error(error));
+
+
+// // Lấy thông tin RAM
+// si.mem()
+// //@ts-ignore
+//   .then(data => {
+//     console.log('RAM Information:');
+//     console.log('Total RAM:', (data.total / (1024 * 1024 * 1024)).toFixed(2), 'GB');
+//     console.log('Free RAM:', (data.free / (1024 * 1024 * 1024)).toFixed(2), 'GB');
+//   })
+//   //@ts-ignore
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });
+
+// // Lấy thông tin VGA
+// si.graphics()
+// //@ts-ignore
+//   .then(data => {
+//     console.log('VGA Information:');
+//     //@ts-ignore
+//     data.controllers.forEach((controller, index) => {
+//       console.log(`VGA ${index + 1}:`);
+//       console.log('Model:', controller.model);
+//       console.log('Vendor:', controller.vendor);
+//       console.log('VRAM:', (controller.vram / (1024 * 1024)).toFixed(2), 'MB');
+//     });
+//   })
+//   //@ts-ignore
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });
+
+// // Lấy thông tin ổ cứng
+// si.diskLayout()
+// //@ts-ignore
+//   .then(data => {
+//     console.log('HDD/SSD Information:');
+//     //@ts-ignore
+//     data.forEach((disk, index) => {
+//       console.log(`Disk ${index + 1}:`);
+//       console.log('Model:', disk.name);
+//       console.log('Type:', disk.type);
+//       console.log('Size:', (disk.size / (1024 * 1024 * 1024)).toFixed(2), 'GB');
+//     });
+//   })
+//   //@ts-ignore
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });
+
+// Lấy thông tin mạng
+let Network:any = []
+// si.networkInterfaces()
+// //@ts-ignore
+//   .then(data => {
+//     Network = data
+//     console.log('Network Interfaces:');
+//     //@ts-ignore
+//     data.forEach((iface, index) => {
+//       console.log(`Interface ${index + 1}:`);
+//       console.log('Name:', iface.iface);
+//       console.log('IP Address:', iface.ip4);
+//       console.log('MAC Address:', iface.mac);
+//     });
+//   })
+//   //@ts-ignore
+//   .catch(error => {
+//     console.error('Error:', error);
+//   });
+
+  /////////// name PC /////////////
+const os = require('os');
+
+// Lấy tên máy tính
+// return the endianness of system
+console.log("Endianness of system: " + os.endianness());
+ 
+// It returns hostname of system
+console.log("Hostname: " + os.hostname());
+ 
+// It return operating system name
+console.log("Operating system name: " + os.type());
+ 
+// It returns the platform of os
+console.log('operating system platform: ' + os.platform());
+ 
+// It returns the operating systems release.
+console.log('OS release : ' + os.release());
+// Lấy tên người dùng hiện tại
+const userName = os.userInfo().username;
+console.log('User Name:', userName);
+
+////////////////////////////////////////////
+///////////////////// auto search 
+// const socket = io(`http://192.167.1.242:18092`,{
+					
+// 					transports: ["websocket"],
+// 				});
+const localIPRange = '192.167.1.';
+const startIP = 1;
+const endIP = 255;
+
+async function scanAndConnect() {
+  await si.networkInterfaces()
+  .then((data: any) => {
+    Network = data
+  })
+    // for (let i = startIP; i <= endIP; i++) {
+        // const ip = localIPRange + i;
+        // const socket = io(`http://${ip}:18092`,{
+        const socket = io(`http://192.167.1.242:18092`,{  
+                            // timeout: 100,
+                            transports: ["websocket"],
+                    				});                 
+        try {
+            await new Promise<void>((resolve, reject) => {
+                socket.on('connect', () => {
+                    console.log(`Connected to server at {ip}`);
+                    socket.emit("register", {
+                      PcID: os.hostname(),
+                      NamePC: userName,
+                      Network: Network[0].ip4,
+            
+                    });
+                    resolve();
+                });
+                socket.on('connect_error', (error: any) => {
+                    console.error(`Connection to {ip} failed: ${error.message}`);
+                    reject();
+                });
+                
+                socket.on('welcome', () => {
+                  console.log('on welcome : welcome received renderer'); // display
+                });
+            });
+            // Nếu kết nối thành công, bạn có thể thực hiện các thao tác khác ở đây (nếu cần)
+            //break; // Kết thúc vòng lặp sau khi tìm thấy IP hợp lệ
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        } finally {
+           
+            //socket.close(); // Đóng kết nối sau khi thử
+        }
+    // }
+}
+
+scanAndConnect();
+
+  const isDev = process.env.npm_lifecycle_event === "app:dev" ? true : false;
+  console.log('dev', isDev)
+  
 
 async function handleFileOpen() {
     const { canceled, filePaths } = await dialog.showOpenDialog({ title: "Open File" })
@@ -280,7 +446,8 @@ function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
               width: 1200,
-      height: 1080,
+      height: 1080, 
+      show: false,
       icon: __dirname + '/icon.ico',
     //   maximizable: false, // Vô hiệu hóa maximize
       webPreferences: {
@@ -301,10 +468,10 @@ function createWindow() {
 
     // and load the index.html of the app.
     if (isDev) {
-        mainWindow.loadURL('http://localhost:5173');// Open the DevTools.
+        mainWindow.loadURL('http://localhost:5174');// Open the DevTools.
         // mainWindow.loadFile(join(__dirname, '../../index.html'));
-        // mainWindow.webContents.openDevTools();
-        mainWindow.webContents.openDevTools({ mode: "detach" });
+        mainWindow.webContents.openDevTools();
+        // mainWindow.webContents.openDevTools({ mode: "detach" });
     } else {
         mainWindow.loadFile(join(__dirname, '../../index.html'));
     }

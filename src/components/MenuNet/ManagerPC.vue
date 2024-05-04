@@ -6,55 +6,58 @@ const select = ref("March");
 const items = ref(["March", "April", "May", "June"]);
 // console.log('socketIO', state.connecte)
 
-import { io } from "socket.io-client";
-const socket = io(`http://localhost:18092`,{
+
+//////////////////////////////
+// const socket = io(`http://localhost:18092`,{
 					
-					transports: ["websocket"],
-				});
-
-socket.on('welcome', () => {
-  console.log('on welcome : welcome received renderer'); // displayed
-//   socket.emit('test')
-});
-socket.on('error', (e) => {
-  console.log('error', e); // not displayed
-});
-socket.on('ok', () => {
-  console.log("OK received renderer"); // not displayed
-});
-socket.on('connect', () => {
-  console.log("connected renderer xx"); // displayed
-//   socket.emit('test');
-
-  socket.emit("register", {
-						userid: 'userInfos.userid',
-						shopid: 'userInfos.shopid',
-						roleid: 'userInfos.roleid',
-						view: 'cashier'
-					});
-});
-// Lắng nghe sự kiện kết nối lại thành công
-socket.on('reconnect', (attemptNumber) => {
-    console.log('Reconnected on attempt:', attemptNumber);
-});
-socket.on('connect_error', (err) => {
-    console.log('Connect error:', err.message);
-});
-socket.on('disconnect', () => {
-    console.log('Disconnected from server');
-});
-socket.on('notify_bar', (data) => {
-  console.log("OK notify_bar", data); // not displayed
-});
-
-console.log('projectTableData', projectTableData)
-
-var socketUrl = window.location.protocol + "//" + window.location.host;
-// var socket = io(socketUrl, {
-// 					origins: "*",
 // 					transports: ["websocket"],
 // 				});
-console.log('socket', socket, socketUrl)
+
+// socket.on('welcome', () => {
+//   console.log('on welcome : welcome received renderer'); // displayed d
+// //   socket.emit('test')
+// });
+// socket.on('error', (e) => {
+//   console.log('error', e); // not displayed
+// });
+// socket.on('ok', () => {
+//   console.log("OK received renderer"); // not displayed
+// });
+// socket.on('connect', () => {
+//   console.log("connected renderer xx"); // displayed
+// //   socket.emit('test');
+
+//   socket.emit("register", {
+// 						userid: 'userInfos.userid',
+// 						shopid: 'userInfos.shopid',
+// 						roleid: 'userInfos.roleid',
+// 						view: 'cashier'
+// 					});
+// });
+// // Lắng nghe sự kiện kết nối lại thành công
+// socket.on('reconnect', (attemptNumber) => {
+//     console.log('Reconnected on attempt:', attemptNumber);
+// });
+// socket.on('connect_error', (err) => {
+//     console.log('Connect error:', err.message);
+// });
+// socket.on('disconnect', () => {
+//     console.log('Disconnected from server');
+// });
+// socket.on('notify_bar', (data) => {
+//   console.log("OK notify_bar", data); // not displayed
+// });
+
+// console.log('projectTableData', projectTableData)
+
+// var socketUrl = window.location.protocol + "//" + window.location.host;
+// // var socket = io(socketUrl, {
+// // 					origins: "*",
+// // 					transports: ["websocket"],
+// // 				});
+// console.log('socket', socket, socketUrl)
+/////////////////////////////
+
 // socket.on("connected", function () {
 // 					console.log("socket conectedddddddddddd")
 // 					socket.emit("register", {

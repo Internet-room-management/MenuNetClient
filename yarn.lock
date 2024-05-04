@@ -5302,6 +5302,11 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
+systeminformation@^5.22.7:
+  version "5.22.7"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.22.7.tgz#9a20810c7eacad4aebe7591cb7c78c0dd96dbd1a"
+  integrity sha512-AWxlP05KeHbpGdgvZkcudJpsmChc2Y5Eo/GvxG/iUA/Aws5LZKHAMSeAo+V+nD+nxWZaxrwpWcnx4SH3oxNL3A==
+
 tar@^6.1.12:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/tar/-/tar-6.2.1.tgz#717549c541bc3c2af15751bea94b1dd068d4b03a"

@@ -14,15 +14,16 @@ export default defineConfig({
 ],
   base: './',
   resolve: {
-    // alias: {
-    //     '@': fileURLToPath(new URL('src', import.meta.url)),
-        
-    // }
     alias: {
-      '@': path.resolve(__dirname, './src'),
+        '@': fileURLToPath(new URL('src', import.meta.url)),
+        
     }
+    // alias: {
+    //   '@': path.resolve(__dirname, './src'),
+    // }
   },
   server: {
+    port: 5174,
     hmr: {
       overlay: false
     },

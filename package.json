@@ -1,5 +1,5 @@
 {
-  "name": "vite-vue3-electron-ts-template",
+  "name": "client",
   "private": true,
   "version": "0.0.1",
   "author": "Your Name",
@@ -76,6 +76,7 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "svgmap": "^2.10.1",
+    "systeminformation": "^5.22.7",
     "v-calendar": "3.0.0-alpha.8",
     "vee-validate": "4.9.0",
     "vite-plugin-vuetify": "1.0.2",
