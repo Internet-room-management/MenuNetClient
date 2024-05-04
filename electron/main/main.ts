@@ -12,36 +12,18 @@ var {
     ipcMain,
     dialog
 } = require('electron');
-// socket server
-// let userClient:any = [];
-// const io = require('socket.io')();
-// //@ts-ignore
-// io.on('connection', (socket) => {
-//     console.log('socket connection:xxxxxxxxxxxx');
+import hardwarePC from '../shared/models/hardware';
+const PC = new hardwarePC()
+async function test(){
+  console.log('hardware', await PC.namePC() )
+  console.log('hardware', await PC.infoHdd() )
+  console.log('hardware', await PC.infoVga() )
+  console.log('hardware', await PC.cpuPC() )
+  console.log('hardware', await PC.ramPC() )
+  console.log('hardware', await PC.NetworkSpeed() )
+}
+test()
 
-//     socket.on('register', (data:any) => {
-
-//       console.log(`REGISTER :${JSON.stringify(data)}`);
-//       userClient.push({
-//                   socket,
-//                   userid: data.userid,
-//                   shopid: data.shopid,
-//                   // shopid: config.resid,
-//                   roleid: data.roleid,
-//                   view: data.view
-//                 });
-//         userClient[0].socket.emit('notify_bar', 'successful')
-//     });
-    
-
-// //   io.emit('welcome');
-
-// //   socket.on("test", () => {
-// //     console.log("received test"); // not displayed
-// //     io.emit("ok");
-// //   })
-// });
-// io.listen(18092);
 var io = require ("socket.io-client");
 
 //////////////////////////////////////
@@ -274,17 +256,17 @@ var io = require ("socket.io-client");
 
 
 ////// info hardware ////////////
-const si = require('systeminformation');
+// const si = require('systeminformation');
 
-// // promises style - new since version 3
+// // // promises style - new since version 3
 // si.cpu()
 // //@ts-ignore
-//   .then(data => console.log(data))
+//   .then(data => console.log(data.brand))
 //   //@ts-ignore
 //   .catch(error => console.error(error));
 
 
-// // Lấy thông tin RAM
+// // // Lấy thông tin RAM
 // si.mem()
 // //@ts-ignore
 //   .then(data => {
@@ -297,17 +279,17 @@ const si = require('systeminformation');
 //     console.error('Error:', error);
 //   });
 
-// // Lấy thông tin VGA
+// // // Lấy thông tin VGA
 // si.graphics()
 // //@ts-ignore
 //   .then(data => {
-//     console.log('VGA Information:');
+//     // console.log('VGA Information:');
 //     //@ts-ignore
 //     data.controllers.forEach((controller, index) => {
-//       console.log(`VGA ${index + 1}:`);
+//       // console.log(`VGA ${index + 1}:`);
 //       console.log('Model:', controller.model);
-//       console.log('Vendor:', controller.vendor);
-//       console.log('VRAM:', (controller.vram / (1024 * 1024)).toFixed(2), 'MB');
+//       // console.log('Vendor:', controller.vendor);
+//       // console.log('VRAM:', (controller.vram / (1024 * 1024)).toFixed(2), 'MB');
 //     });
 //   })
 //   //@ts-ignore
@@ -315,7 +297,7 @@ const si = require('systeminformation');
 //     console.error('Error:', error);
 //   });
 
-// // Lấy thông tin ổ cứng
+// // // Lấy thông tin ổ cứng
 // si.diskLayout()
 // //@ts-ignore
 //   .then(data => {
@@ -333,47 +315,47 @@ const si = require('systeminformation');
 //     console.error('Error:', error);
 //   });
 
-// Lấy thông tin mạng
-let Network:any = []
-// si.networkInterfaces()
-// //@ts-ignore
-//   .then(data => {
-//     Network = data
-//     console.log('Network Interfaces:');
-//     //@ts-ignore
-//     data.forEach((iface, index) => {
-//       console.log(`Interface ${index + 1}:`);
-//       console.log('Name:', iface.iface);
-//       console.log('IP Address:', iface.ip4);
-//       console.log('MAC Address:', iface.mac);
-//     });
-//   })
-//   //@ts-ignore
-//   .catch(error => {
-//     console.error('Error:', error);
-//   });
+// // Lấy thông tin mạng
+// let Network:any = []
+// // si.networkInterfaces()
+// // //@ts-ignore
+// //   .then(data => {
+// //     Network = data
+// //     console.log('Network Interfaces:');
+// //     //@ts-ignore
+// //     data.forEach((iface, index) => {
+// //       console.log(`Interface ${index + 1}:`);
+// //       console.log('Name:', iface.iface);
+// //       console.log('IP Address:', iface.ip4);
+// //       console.log('MAC Address:', iface.mac);
+// //     });
+// //   })
+// //   //@ts-ignore
+// //   .catch(error => {
+// //     console.error('Error:', error);
+// //   });
 
-  /////////// name PC /////////////
-const os = require('os');
+//   /////////// name PC /////////////
+// const os = require('os');
 
 // Lấy tên máy tính
 // return the endianness of system
-console.log("Endianness of system: " + os.endianness());
+// console.log("Endianness of system: " + os.endianness());
  
-// It returns hostname of system
-console.log("Hostname: " + os.hostname());
+// // It returns hostname of system
+// console.log("Hostname: " + os.hostname());
  
-// It return operating system name
-console.log("Operating system name: " + os.type());
+// // It return operating system name
+// console.log("Operating system name: " + os.type());
  
-// It returns the platform of os
-console.log('operating system platform: ' + os.platform());
+// // It returns the platform of os
+// console.log('operating system platform: ' + os.platform());
  
-// It returns the operating systems release.
-console.log('OS release : ' + os.release());
+// // It returns the operating systems release.
+// console.log('OS release : ' + os.release());
 // Lấy tên người dùng hiện tại
-const userName = os.userInfo().username;
-console.log('User Name:', userName);
+// const userName = os.userInfo().username;
+// console.log('User Name:', userName);
 
 ////////////////////////////////////////////
 ///////////////////// auto search 
@@ -386,10 +368,6 @@ const startIP = 1;
 const endIP = 255;
 
 async function scanAndConnect() {
-  await si.networkInterfaces()
-  .then((data: any) => {
-    Network = data
-  })
     // for (let i = startIP; i <= endIP; i++) {
         // const ip = localIPRange + i;
         // const socket = io(`http://${ip}:18092`,{
@@ -399,13 +377,16 @@ async function scanAndConnect() {
                     				});                 
         try {
             await new Promise<void>((resolve, reject) => {
-                socket.on('connect', () => {
+                socket.on('connect', async () => {
                     console.log(`Connected to server at {ip}`);
                     socket.emit("register", {
-                      PcID: os.hostname(),
-                      NamePC: userName,
-                      Network: Network[0].ip4,
-            
+                      PcID: (await PC.namePC()).hostName,
+                      NamePC: (await PC.namePC()).NamePc,
+                      Network: (await PC.NetworkSpeed()),
+                      storage: await PC.infoHdd(), 
+                      vga: await PC.infoVga(), 
+                      ram: await PC.ramPC(), 
+                      cpu: await PC.cpuPC()
                     });
                     resolve();
                 });
