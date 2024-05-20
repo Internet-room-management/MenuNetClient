@@ -14,15 +14,7 @@ var {
 } = require('electron');
 import hardwarePC from '../shared/models/hardware';
 const PC = new hardwarePC()
-async function test(){
-  console.log('hardware', await PC.namePC() )
-  console.log('hardware', await PC.infoHdd() )
-  console.log('hardware', await PC.infoVga() )
-  console.log('hardware', await PC.cpuPC() )
-  console.log('hardware', await PC.ramPC() )
-  console.log('hardware', await PC.NetworkSpeed() )
-}
-test()
+
 
 var io = require ("socket.io-client");
 
@@ -374,11 +366,13 @@ async function scanAndConnect() {
         const socket = io(`http://192.167.1.242:18092`,{  
                             // timeout: 100,
                             transports: ["websocket"],
-                    				});                 
+                    				});               
         try {
+            const socketURL = new URL(socket.io.uri);
+            const socketIP = socketURL.hostname;
             await new Promise<void>((resolve, reject) => {
                 socket.on('connect', async () => {
-                    console.log(`Connected to server at {ip}`);
+                    console.log(`Connected to server at ip local ${socketIP}`);
                     socket.emit("register", {
                       PcID: (await PC.namePC()).hostName,
                       NamePC: (await PC.namePC()).NamePc,
